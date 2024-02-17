@@ -1,0 +1,60 @@
+.player-button {
+    height: 62px;
+    padding: 10px 24px;
+}
+
+.player-button,
+.rotated-button {
+    &._player1 {
+        border-color: $player1-primary-color;
+        background: $player1-primary-color;
+    }
+
+    &._default {
+        border-color: $text-color;
+        background: $text-color;
+        color: $background-color;
+        fill: $background-color;
+    }
+    
+    &._player2 {
+        border-color: $player2-primary-color;
+        background: $player2-primary-color;
+    }
+
+    &._border-only {
+        background: $background-color;
+    }
+    
+    &._gradient-border {
+        border-style: solid;
+        border-image-slice: 1;
+        border-width: 3px;
+        border-image-source: $gradient-light;
+    }
+
+    &:disabled {
+        pointer-events: none;
+    }
+}
+
+
+.rotated-button {
+    border: 3px;
+    border-style: solid;
+    transform: rotate(45deg);
+
+    &._large {
+        height: 80px;
+        width: 80px;
+    }
+    
+    &._medium {
+        height: 41px;
+        width: 41px;
+    }
+
+    & > div {
+        transform: rotate(-45deg);
+    }
+}

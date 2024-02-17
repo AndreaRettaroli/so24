@@ -1,0 +1,15 @@
+{
+    "translation": {
+      "title": "So24",
+      "player": "Player {{player}}",
+      "noDice": "No dice",
+      "playerWins": "Player {{player}} Wins",
+      "newGame": "New game",
+      "start": "Start",
+      "position": "Position the phone before pressing the start button",
+      "turn": "Turn",
+      "pass": "Pass",
+      "points": "Points",
+      "penalty": "Penalty"
+    }
+  }

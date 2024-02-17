@@ -1,0 +1,53 @@
+:root {
+    background: $background-color;
+    font-family: $font-family;
+    color: white;
+}
+
+body {
+    max-height: 100vh;
+}
+
+.-t-r180dg {
+    transform: rotate(180deg);
+}
+
+.-fw {
+    width: 100%;
+}
+
+.-df {
+    display: flex;
+}
+
+.-dcol {
+    flex-direction: column;
+}
+
+.-a-ctr {
+    align-items: center;
+}
+
+.-j-spa {
+    justify-content: space-around;
+}
+
+.-j-spb {
+    justify-content: space-between;
+}
+
+.-j-c {
+    justify-content: center;
+}
+
+.-h-100vh {
+    height: 100vh;
+}
+
+.-h-88vh {
+    height: 88vh;
+}
+
+.-w-100vw {
+    width: 100vw;
+}
