@@ -16,7 +16,7 @@ const listeners: Listeners = {
     countdown: [],
 };
 
-type Screen = 'landing' | 'starting' | 'game' | 'overtime' |'stopped' | 'ending';
+type Screen = 'landing' | 'starting' | 'game' | 'overtime' | 'stopped' | 'ending';
 
 type Player = 'player1' | 'player2';
 
@@ -89,7 +89,7 @@ function createCountdownState (type: CountdownType, paused: boolean): CountdownS
 const gameState: GameState = {
     player1: createPlayerState(1),
     player2: createPlayerState(0),
-    screen: 'landing', // change to landing
+    screen: 'landing',
     currentPlayer: 'player1',
     countdown: createCountdownState('starting', true),
 };
@@ -143,6 +143,25 @@ export const gameStateStore = {
         gameState.countdown = { ...gameState.countdown };
         emitChange('countdown');
     },
+    startPreGameCountdown () {
+        gameStateStore.startTimer();
+    },
+    pausePreGameCountdown () {
+        gameStateStore.pauseTimer();
+    },
+    resumePreGameCountdown () {
+        gameStateStore.startTimer();
+    },
+    stopGame () {
+        gameStateStore.pauseTimer();
+        gameState.screen = 'stopped';
+        emitChange('screen');
+    },
+    resumeGame () {
+        gameStateStore.startTimer();
+        gameState.screen = 'game';
+        emitChange('screen');
+    },
     newGame () {
         gameState.player1 = createPlayerState(1);
         gameState.player2 = createPlayerState(0);
@@ -176,10 +195,6 @@ export const gameStateStore = {
         }
 
         emitChange('countdown', 'players', 'currentPlayer', 'screen');
-    },
-    changeScreen (screen: Screen) {
-        gameState.screen = screen;
-        emitChange('screen');
     },
     addPoints (player: Player, points: number) {
         gameState[player].points += points;

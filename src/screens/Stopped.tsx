@@ -2,8 +2,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@Components/Button/Button';
 import { Text } from '@Components/Text/Text';
-import { TotalPoints } from '@Components/TotalPoints/TotalPoints';
-import { PointHistory } from '@Components/PointHistory/PointHistory';
 import { Icon } from '@Components/Icon/Icon';
 import {
     useGameStateCurrentPlayer,
@@ -15,12 +13,12 @@ import {
 import { useGameStateContext } from '@Hooks/useGameStateContext';
 import clsx from 'clsx';
 
-export const GameScreen: React.FC = () => {
+export const StoppedScreen: React.FC = () => {
     const { t } = useTranslation();
     const currentPlayer = useGameStateCurrentPlayer();
     const currentPlayerTurn = useGameStateCurrentPlayerTurn();
-    const { addPoints, undoPoints, stopGame, nextTurn, toggleNoDice } = useGameStateContext();
-    const { value: seconds } = useGameStateCountdown();
+    const { newGame, resumeGame, toggleNoDice } = useGameStateContext();
+    const { value: seconds, paused } = useGameStateCountdown();
     const player1 = useGameStatePlayer1();
     const player2 = useGameStatePlayer2();
 
@@ -37,13 +35,6 @@ export const GameScreen: React.FC = () => {
                         { player2.noDice ? t('haveDice') : t('noDice') }
                     </Text>
                 </Button>
-                {
-                    currentPlayer === 'player1' && (
-                        <div className="-t-r180dg">
-                            <TotalPoints points={player2.points} player="player2" />
-                        </div>
-                    )
-                }
             </div>
             <div
                 style={{ position: 'relative', width: '100vw', height: '100vh' }}
@@ -61,9 +52,9 @@ export const GameScreen: React.FC = () => {
                             variant="rotated"
                             color={currentPlayer}
                             borderOnly
-                            onClick={() => stopGame()}
+                            onClick={() => resumeGame()}
                         >
-                            <Icon icon="pause" alt="Pause" />
+                            { paused ? <Icon icon="play" alt="Play" /> : <Icon icon="pause" alt="Pause" /> }
                             <Text color="text" size="m" weight="regular">
                                 { seconds.toString() }
                             </Text>
@@ -87,21 +78,17 @@ export const GameScreen: React.FC = () => {
                     </div>
                     <div style={{ position: 'absolute', top: '23%', right: '10%' }}>
                         <div
-                            className={clsx(currentPlayer === 'player1' ? '-bg-player1' : '-bg-player2')}
+                            className="-bg-disabled"
                             style={
                                 { position: 'absolute', right: 'calc(0% - 10vw)', top: 'calc(47% + 1px)', width: '10vw', height: '3px' }
                             }
                         />
                         <Button
                             variant="rotated"
-                            color={currentPlayer}
+                            color="disabled"
                             borderOnly
-                            onClick={() => nextTurn()}
-                        >
-                            <Text color="text" size="m" weight="regular">
-                                { t('pass') }
-                            </Text>
-                        </Button>
+                            disabled
+                        />
                     </div>
                 </div>
                 <div style={
@@ -116,79 +103,13 @@ export const GameScreen: React.FC = () => {
                     }
                 }
                 >
-                    <TotalPoints points={currentPlayer === 'player1' ? player1.points : player2.points} player={currentPlayer} />
-                    <PointHistory pointHistory={currentPlayer === 'player1' ? player1.pointHistory : player2.pointHistory} />
-                    <Button height="medium" variant="rotated" color="default" borderOnly onClick={() => undoPoints(currentPlayer)}>
-                        <Icon icon="annul" alt="Annul" />
-                    </Button>
-                </div>
-                <div style={
-                    {
-                        position: 'absolute',
-                        top: 'calc(60% + 20px)',
-                        left: '15%',
-                    }
-                }
-                >
-                    <Button height="medium" variant="rotated" color={currentPlayer} onClick={() => addPoints(currentPlayer, 1)}>
-                        <Text color="text" size="m" weight="regular">1</Text>
-                    </Button>
-                </div>
-                <div style={
-                    {
-                        position: 'absolute',
-                        top: 'calc(60% + 20px)',
-                        left: '45%',
-                    }
-                }
-                >
-                    <Button height="medium" variant="rotated" color={currentPlayer} onClick={() => addPoints(currentPlayer, 3)}>
-                        <Text color="text" size="m" weight="regular">3</Text>
-                    </Button>
-                </div>
-                <div style={
-                    {
-                        position: 'absolute',
-                        top: 'calc(60% + 20px)',
-                        left: '75%',
-                    }
-                }
-                >
-                    <Button height="medium" variant="rotated" color={currentPlayer} onClick={() => addPoints(currentPlayer, 5)}>
-                        <Text color="text" size="m" weight="regular">5</Text>
-                    </Button>
-                </div>
-                <div style={
-                    {
-                        position: 'absolute',
-                        top: 'calc(70% + 5px)',
-                        left: 'calc(24% + 20px)',
-                    }
-                }
-                >
-                    <Button height="medium" variant="rotated" color={currentPlayer} onClick={() => addPoints(currentPlayer, 2)}>
-                        <Text color="text" size="m" weight="regular">2</Text>
-                    </Button>
-                </div>
-                <div style={
-                    {
-                        position: 'absolute',
-                        top: 'calc(70% + 5px)',
-                        right: 'calc(21% + 20px)',
-                    }
-                }
-                >
-                    <Button height="medium" variant="rotated" color={currentPlayer} onClick={() => addPoints(currentPlayer, 4)}>
-                        <Text color="text" size="m" weight="regular">4</Text>
+                    <Button variant="normal" color="gradient" borderOnly onClick={() => newGame()}>
+                        <Icon icon="plus" alt={t('newGame')} />
+                        <Text color="text" size="xs" weight="regular">{ t('newGame') }</Text>
                     </Button>
                 </div>
             </div>
             <div style={{ position: 'absolute', bottom: 0, width: '100%' }}>
-                {
-                    currentPlayer === 'player2' && (
-                        <TotalPoints points={player1.points} player="player1" />
-                    )
-                }
                 <Button variant="normal" color="player1" fullWidth onClick={() => toggleNoDice('player1')}>
                     {
                         player1.noDice

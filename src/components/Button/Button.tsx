@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 
-type ButtonColors = 'gradient' | 'player1' | 'player2' | 'default' | 'transparent';
+type ButtonColors = 'gradient' | 'player1' | 'player2' | 'default' | 'transparent' | 'disabled';
 
 interface SharedButtonProps {
     onClick?: () => void;
@@ -78,6 +78,9 @@ function colorTypeToClass (color: ButtonColors) {
         }
         case 'transparent': {
             return '_transparent';
+        }
+        case 'disabled': {
+            return '_disabled';
         }
         default: {
             return '_default';

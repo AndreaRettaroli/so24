@@ -8,7 +8,7 @@ import { useGameStateContext } from '@Hooks/useGameStateContext';
 
 export const LandingScreen: React.FC = () => {
     const { t } = useTranslation();
-    const { changeScreen } = useGameStateContext();
+    const { newGame } = useGameStateContext();
 
     return (
         <div className="-h-100v">
@@ -35,7 +35,7 @@ export const LandingScreen: React.FC = () => {
                 <Icon icon="die" alt="So24 Logo" height="60px" width="60px" />
             </div>
             <div style={{ position: 'absolute', top: 'calc(75% - 67px)', left: 'calc(50% - 67px)' }}>
-                <Button variant="normal" color="gradient" borderOnly onClick={() => changeScreen('starting')}>
+                <Button variant="normal" color="gradient" borderOnly onClick={() => newGame()}>
                     <Icon icon="plus" alt={t('newGame')} />
                     <Text color="text" size="xs" weight="regular">{ t('newGame') }</Text>
                 </Button>

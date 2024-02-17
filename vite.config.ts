@@ -21,12 +21,13 @@ export default defineConfig({
     plugins: [
         react(),
         VitePWA({
+            includeAssets: ['./public/favicon.svg'],
             manifest: {
                 short_name: 'So24',
                 name: 'So24',
                 icons: [
                     {
-                        src: 'vite.svg',
+                        src: 'favicon.svg',
                         sizes: '48x48 72x72 96x96 128x128 256x256 512x512',
                         type: 'image/svg+xml',
                         purpose: 'any',

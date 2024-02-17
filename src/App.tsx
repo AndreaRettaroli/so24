@@ -3,6 +3,7 @@ import { LandingScreen } from '@Screens/Landing';
 import { StartingScreen } from '@Screens/Starting';
 import { GameScreen } from '@Screens/Game';
 import { OvertimeScreen } from '@Screens/Overtime';
+import { StoppedScreen } from '@Screens/Stopped';
 import { EndingScreen } from '@Screens/Ending';
 
 const PageHandler: React.FC = () => {
@@ -13,7 +14,7 @@ const PageHandler: React.FC = () => {
         case 'starting': return <StartingScreen />;
         case 'game': return <GameScreen />;
         case 'overtime': return <OvertimeScreen />;
-        case 'stopped': return <div>stopped</div>;
+        case 'stopped': return <StoppedScreen />;
         case 'ending': return <EndingScreen />;
     }
 };

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc && vite build",
+    "deploy": "rm -rf docs && cp -r dist docs",
     "dev": "vite",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:js": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",

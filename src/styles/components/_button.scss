@@ -33,6 +33,10 @@
         border-image-source: $gradient-light;
     }
 
+    &._disabled {
+        border-color: $disabled-color;
+    }
+
     &:disabled {
         pointer-events: none;
     }

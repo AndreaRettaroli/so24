@@ -9,7 +9,7 @@ import { useGameStateCountdown } from '@Hooks/useGameStateStore';
 
 export const StartingScreen: React.FC = () => {
     const { t } = useTranslation();
-    const { startTimer, pauseTimer } = useGameStateContext();
+    const { startPreGameCountdown, pausePreGameCountdown, resumePreGameCountdown } = useGameStateContext();
     const { progress, paused, value: seconds } = useGameStateCountdown();
 
     return (
@@ -34,7 +34,7 @@ export const StartingScreen: React.FC = () => {
                         variant="rotated"
                         color="gradient"
                         borderOnly
-                        onClick={() => startTimer()}
+                        onClick={() => startPreGameCountdown()}
                     >
                         <Text color="text" size="m" weight="semibold">
                             { t('start') }
@@ -44,7 +44,12 @@ export const StartingScreen: React.FC = () => {
             }
             {
                 (progress < 100 || !paused) && (
-                    <Button variant="rotated" color="gradient" borderOnly onClick={() => paused ? startTimer() : pauseTimer()}>
+                    <Button
+                        variant="rotated"
+                        color="gradient"
+                        borderOnly
+                        onClick={() => paused ? resumePreGameCountdown() : pausePreGameCountdown()}
+                    >
                         { paused ? <Icon icon="play" alt="Play" /> : <Icon icon="pause" alt="Pause" /> }
                         <Text color="text" size="m" weight="regular">
                             { seconds.toString() }
