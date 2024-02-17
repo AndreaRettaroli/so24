@@ -28,9 +28,13 @@ export const GameScreen: React.FC = () => {
         <div className="-h-100vh">
             <div style={{ position: 'absolute', top: 0, width: '100%', zIndex: '9999' }}>
                 <Button variant="normal" color="player2" fullWidth className="-t-r180dg" onClick={() => toggleNoDice('player2')}>
-                    { player2.noDice ? <Icon icon="die" alt={t('noDice')} /> : <Icon icon="dieDisabled" alt={t('noDice')} /> }
+                    {
+                        player2.noDice
+                            ? <Icon icon="die" alt={t('noDice')} width="24px" height="24px" />
+                            : <Icon icon="dieDisabled" alt={t('noDice')} width="24px" height="24px" />
+                    }
                     <Text color="text" size="s" weight="regular">
-                        { t('noDice') }
+                        { player2.noDice ? t('haveDice') : t('noDice') }
                     </Text>
                 </Button>
                 {
@@ -186,9 +190,13 @@ export const GameScreen: React.FC = () => {
                     )
                 }
                 <Button variant="normal" color="player1" fullWidth onClick={() => toggleNoDice('player1')}>
-                    { player1.noDice ? <Icon icon="die" alt={t('noDice')} /> : <Icon icon="dieDisabled" alt={t('noDice')} /> }
+                    {
+                        player1.noDice
+                            ? <Icon icon="die" alt={t('noDice')} width="24px" height="24px" />
+                            : <Icon icon="dieDisabled" alt={t('noDice')} width="24px" height="24px" />
+                    }
                     <Text color="text" size="s" weight="regular">
-                        { t('noDice') }
+                        { player1.noDice ? t('haveDice') : t('noDice') }
                     </Text>
                 </Button>
             </div>

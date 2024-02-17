@@ -3,6 +3,7 @@
       "title": "So24",
       "player": "Player {{player}}",
       "noDice": "No dice",
+      "haveDice": "Have dice",
       "playerWins": "Player {{player}} Wins",
       "newGame": "New game",
       "start": "Start",
