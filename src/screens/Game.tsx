@@ -7,11 +7,9 @@ import { PointHistory } from '@Components/PointHistory/PointHistory';
 import { Icon } from '@Components/Icon/Icon';
 import {
     useGameStateCurrentPlayer,
-    useGameStatePlayer1Points,
-    useGameStatePlayer2Points,
-    useGameStatePlayer1PointHistory,
-    useGameStatePlayer2PointHistory,
-    useCurrentPlayerTurn,
+    useGameStatePlayer1,
+    useGameStatePlayer2,
+    useGameStateCurrentPlayerTurn,
     useGameStateCountdown,
 } from '@Hooks/useGameStateStore';
 import { useGameStateContext } from '@Hooks/useGameStateContext';
@@ -20,13 +18,11 @@ import clsx from 'clsx';
 export const GameScreen: React.FC = () => {
     const { t } = useTranslation();
     const currentPlayer = useGameStateCurrentPlayer();
-    const currentPlayerTurn = useCurrentPlayerTurn();
+    const currentPlayerTurn = useGameStateCurrentPlayerTurn();
     const { addPoints, undoPoints, startTimer, pauseTimer, nextTurn, toggleNoDice } = useGameStateContext();
     const { value: seconds, paused } = useGameStateCountdown();
-    const player1Points = useGameStatePlayer1Points();
-    const player2Points = useGameStatePlayer2Points();
-    const player1PointHistory = useGameStatePlayer1PointHistory();
-    const player2PointHistory = useGameStatePlayer2PointHistory();
+    const player1 = useGameStatePlayer1();
+    const player2 = useGameStatePlayer2();
 
     return (
         <div className="-h-100vh">
@@ -40,7 +36,7 @@ export const GameScreen: React.FC = () => {
                 {
                     currentPlayer === 'player1' && (
                         <div className="-t-r180dg">
-                            <TotalPoints points={player2Points} player="player2" />
+                            <TotalPoints points={player2.points} player="player2" />
                         </div>
                     )
                 }
@@ -116,8 +112,8 @@ export const GameScreen: React.FC = () => {
                     }
                 }
                 >
-                    <TotalPoints points={currentPlayer === 'player1' ? player1Points : player2Points} player={currentPlayer} />
-                    <PointHistory pointHistory={currentPlayer === 'player1' ? player1PointHistory : player2PointHistory} />
+                    <TotalPoints points={currentPlayer === 'player1' ? player1.points : player2.points} player={currentPlayer} />
+                    <PointHistory pointHistory={currentPlayer === 'player1' ? player1.pointHistory : player2.pointHistory} />
                     <Button height="medium" variant="rotated" color="default" borderOnly onClick={() => undoPoints(currentPlayer)}>
                         <Icon icon="annul" alt="Annul" />
                     </Button>
@@ -186,7 +182,7 @@ export const GameScreen: React.FC = () => {
             <div style={{ position: 'absolute', bottom: 0, width: '100%' }}>
                 {
                     currentPlayer === 'player2' && (
-                        <TotalPoints points={player1Points} player="player1" />
+                        <TotalPoints points={player1.points} player="player1" />
                     )
                 }
                 <Button variant="normal" color="player1" fullWidth onClick={() => toggleNoDice('player1')}>

@@ -145,10 +145,11 @@ export const gameStateStore = {
     newGame () {
         gameState.player1 = createPlayerState(1);
         gameState.player2 = createPlayerState(0);
+        gameStateStore.pauseTimer();
         gameState.countdown = createCountdownState('starting', true);
         gameState.screen = 'starting';
         gameState.currentPlayer = 'player1';
-        emitChange('players', 'screen', 'currentPlayer');
+        emitChange('countdown', 'players', 'screen', 'currentPlayer');
     },
     nextTurn () {
         gameState[gameState.currentPlayer].pointHistory = [];
@@ -167,6 +168,8 @@ export const gameStateStore = {
             gameState[gameState.currentPlayer].turn++;
         }
 
+        gameState[gameState.currentPlayer] = { ...gameState[gameState.currentPlayer] };
+
         if (previousCountdownPauseState) {
             gameStateStore.startTimer();
         }
@@ -180,6 +183,7 @@ export const gameStateStore = {
     addPoints (player: Player, points: number) {
         gameState[player].points += points;
         gameState[player].pointHistory = [...gameState[player].pointHistory, points];
+        gameState[player] = { ...gameState[player] };
 
         emitChange('players');
     },
@@ -193,10 +197,12 @@ export const gameStateStore = {
         gameState[player].points -= lastPointEntry;
         gameState[player].pointHistory = [...gameState[player].pointHistory];
 
+        gameState[player] = { ...gameState[player] };
         emitChange('players');
     },
     addPenalty (player: Player, penalty: number) {
         gameState[player].penalty += penalty;
+        gameState[player] = { ...gameState[player] };
         emitChange('players');
     },
     toggleNoDice (player: Player) {
@@ -209,6 +215,7 @@ export const gameStateStore = {
             return;
         }
 
+        gameState[player] = { ...gameState[player] };
         emitChange('players');
     },
     endGame () {

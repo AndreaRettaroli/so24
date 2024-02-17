@@ -6,9 +6,9 @@ import { TotalPoints } from '@Components/TotalPoints/TotalPoints';
 import { Icon } from '@Components/Icon/Icon';
 import {
     useGameStateCurrentPlayer,
-    useGameStatePlayer1Points,
-    useGameStatePlayer2Points,
-    useCurrentPlayerTurn,
+    useGameStatePlayer1,
+    useGameStatePlayer2,
+    useGameStateCurrentPlayerTurn,
 } from '@Hooks/useGameStateStore';
 import { useGameStateContext } from '@Hooks/useGameStateContext';
 import clsx from 'clsx';
@@ -16,10 +16,10 @@ import clsx from 'clsx';
 export const OvertimeScreen: React.FC = () => {
     const { t } = useTranslation();
     const currentPlayer = useGameStateCurrentPlayer();
-    const currentPlayerTurn = useCurrentPlayerTurn();
+    const currentPlayerTurn = useGameStateCurrentPlayerTurn();
     const { nextTurn } = useGameStateContext();
-    const player1Points = useGameStatePlayer1Points();
-    const player2Points = useGameStatePlayer2Points();
+    const player1 = useGameStatePlayer1();
+    const player2 = useGameStatePlayer2();
 
     return (
         <div className="-h-100vh -w-100vw" style={{ position: 'relative' }}>
@@ -38,7 +38,7 @@ export const OvertimeScreen: React.FC = () => {
                     }
                 }
             >
-                <TotalPoints points={player2Points} player="player2" />
+                <TotalPoints points={player2.points} player="player2" />
             </div>
             <div
                 style={{ position: 'relative', width: '100vw', height: '100vh' }}
@@ -110,7 +110,7 @@ export const OvertimeScreen: React.FC = () => {
                 }
             }
             >
-                <TotalPoints points={player1Points} player="player1" />
+                <TotalPoints points={player1.points} player="player1" />
             </div>
         </div>
     );
