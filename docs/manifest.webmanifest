@@ -1,8 +1,1 @@
-{"name":"so24","short_name":"so24","start_url":"/so24/","display":"standalone","background_color":"#ffffff","lang":"en","scope":"/so24/", "icons": [
-    {
-        "src": "vite.svg",
-        "sizes": "48x48 72x72 96x96 128x128 256x256 512x512",
-        "type": "image/svg+xml",
-        "purpose": "any"
-    }
-  ]}
+{"name":"so24","short_name":"so24","start_url":"/so24/","display":"standalone","background_color":"#ffffff","lang":"en","scope":"/so24/"}
