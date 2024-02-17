@@ -124,7 +124,8 @@ export const gameStateStore = {
 
                 gameState.screen = 'overtime';
                 gameState[gameState.currentPlayer].penalty += 1;
-                emitChange('screen');
+                gameState[gameState.currentPlayer] = { ...gameState[gameState.currentPlayer] };
+                emitChange('screen', 'players');
             }
 
             gameState.countdown = { ...gameState.countdown };
