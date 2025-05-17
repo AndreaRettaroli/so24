@@ -1,10 +1,10 @@
 type Listener = () => void;
 
 interface Listeners {
-    players: Listener[];
-    currentPlayer: Listener[];
-    screen: Listener[];
-    countdown: Listener[];
+  players: Listener[];
+  currentPlayer: Listener[];
+  screen: Listener[];
+  countdown: Listener[];
 }
 
 type ListenerKeys = keyof Listeners;
@@ -16,7 +16,13 @@ const listeners: Listeners = {
     countdown: [],
 };
 
-type Screen = 'landing' | 'starting' | 'game' | 'overtime' | 'stopped' | 'ending';
+type Screen =
+  | 'landing'
+  | 'starting'
+  | 'game'
+  | 'overtime'
+  | 'stopped'
+  | 'ending';
 
 type Player = 'player1' | 'player2';
 
@@ -25,41 +31,41 @@ type CountdownType = 'starting' | 'game';
 const maxTurns = 24 as const;
 
 interface PlayerState {
-    points: number,
-    turn: number,
-    penalty: number,
-    pointHistory: number[],
-    noDice: boolean;
-    endTurn: number;
+  points: number;
+  turn: number;
+  penalty: number;
+  pointHistory: number[];
+  noDice: boolean;
+  endTurn: number;
 }
 
 interface CountdownState {
-    type: CountdownType;
-    startingValue: 5 | 30;
-    value: number;
-    valueMs: number;
-    progress: number,
-    paused: boolean;
+  type: CountdownType;
+  startingValue: 5 | 30;
+  value: number;
+  valueMs: number;
+  progress: number;
+  paused: boolean;
 }
 
 interface GameState {
-    player1: PlayerState;
-    player2: PlayerState;
-    screen: Screen;
-    currentPlayer: Player;
-    countdown: CountdownState;
+  player1: PlayerState;
+  player2: PlayerState;
+  screen: Screen;
+  currentPlayer: Player;
+  countdown: CountdownState;
 }
 
 interface PointsAndWinnerPlayer {
-    totalPoints: number,
-    penalty: number,
-    points: number,
+  totalPoints: number;
+  penalty: number;
+  points: number;
 }
 
 interface PointsAndWinner {
-    player1: PointsAndWinnerPlayer,
-    player2: PointsAndWinnerPlayer,
-    winner: Player;
+  player1: PointsAndWinnerPlayer;
+  player2: PointsAndWinnerPlayer;
+  winner: Player;
 }
 
 function createPlayerState (turn: 0 | 1): PlayerState {
@@ -73,7 +79,10 @@ function createPlayerState (turn: 0 | 1): PlayerState {
     };
 }
 
-function createCountdownState (type: CountdownType, paused: boolean): CountdownState {
+function createCountdownState (
+    type: CountdownType,
+    paused: boolean,
+): CountdownState {
     const value = type === 'starting' ? 5 : 30;
 
     return {
@@ -109,7 +118,9 @@ export const gameStateStore = {
         intervalId = setInterval(() => {
             gameState.countdown.valueMs -= 100;
             gameState.countdown.value = Math.ceil(gameState.countdown.valueMs / 1000);
-            gameState.countdown.progress = gameState.countdown.valueMs * 100 / (gameState.countdown.startingValue * 1000);
+            gameState.countdown.progress =
+        (gameState.countdown.valueMs * 100) /
+        (gameState.countdown.startingValue * 1000);
 
             if (gameState.countdown.valueMs === 0) {
                 gameState.countdown.paused = true;
@@ -123,8 +134,11 @@ export const gameStateStore = {
                 }
 
                 gameState.screen = 'overtime';
-                gameState[gameState.currentPlayer].penalty += 1;
-                gameState[gameState.currentPlayer] = { ...gameState[gameState.currentPlayer] };
+                // FIXED: remove bug of -1 for timeout penalty
+                // gameState[gameState.currentPlayer].penalty += 1;
+                gameState[gameState.currentPlayer] = {
+                    ...gameState[gameState.currentPlayer],
+                };
                 emitChange('screen', 'players');
             }
 
@@ -175,7 +189,8 @@ export const gameStateStore = {
         gameState[gameState.currentPlayer].pointHistory = [];
 
         if (oppositePlayerHasDie(gameState.currentPlayer)) {
-            gameState.currentPlayer = gameState.currentPlayer === 'player1' ? 'player2' : 'player1';
+            gameState.currentPlayer =
+        gameState.currentPlayer === 'player1' ? 'player2' : 'player1';
         }
 
         const previousCountdownPauseState = gameState.countdown.paused;
@@ -188,7 +203,9 @@ export const gameStateStore = {
             gameState[gameState.currentPlayer].turn++;
         }
 
-        gameState[gameState.currentPlayer] = { ...gameState[gameState.currentPlayer] };
+        gameState[gameState.currentPlayer] = {
+            ...gameState[gameState.currentPlayer],
+        };
 
         if (previousCountdownPauseState) {
             gameStateStore.startTimer();
@@ -198,7 +215,10 @@ export const gameStateStore = {
     },
     addPoints (player: Player, points: number) {
         gameState[player].points += points;
-        gameState[player].pointHistory = [...gameState[player].pointHistory, points];
+        gameState[player].pointHistory = [
+            ...gameState[player].pointHistory,
+            points,
+        ];
         gameState[player] = { ...gameState[player] };
 
         emitChange('players');
@@ -223,7 +243,9 @@ export const gameStateStore = {
     },
     toggleNoDice (player: Player) {
         gameState[player].noDice = !gameState[player].noDice;
-        gameState[player].endTurn = gameState[player].noDice ? gameState[player].turn : 0;
+        gameState[player].endTurn = gameState[player].noDice
+            ? gameState[player].turn
+            : 0;
 
         if (gameState.player1.noDice && gameState.player2.noDice) {
             gameStateStore.endGame();
@@ -258,8 +280,12 @@ export const gameStateStore = {
         };
     },
     calculateWinnerAndPoints (): PointsAndWinner {
-        const player1Penalty = gameState.player1.penalty + getPlayerTurnPenalty(gameState.player2, gameState.player1);
-        const player2Penalty = gameState.player2.penalty + getPlayerTurnPenalty(gameState.player1, gameState.player2);
+        const player1Penalty =
+      gameState.player1.penalty +
+      getPlayerTurnPenalty(gameState.player2, gameState.player1);
+        const player2Penalty =
+      gameState.player2.penalty +
+      getPlayerTurnPenalty(gameState.player1, gameState.player2);
         const player1AdjustedPoints = gameState.player1.points - player1Penalty;
         const player2AdjustedPoints = gameState.player2.points - player2Penalty;
 
@@ -274,14 +300,17 @@ export const gameStateStore = {
                 penalty: player2Penalty,
                 totalPoints: player2AdjustedPoints,
             },
-            winner: player1AdjustedPoints > player2AdjustedPoints ? 'player1' : 'player2',
+            winner:
+        player1AdjustedPoints > player2AdjustedPoints ? 'player1' : 'player2',
         };
     },
     subscribe (listenerKey: ListenerKeys, listener: Listener) {
         listeners[listenerKey] = [...listeners[listenerKey], listener];
 
         return () => {
-            listeners[listenerKey] = listeners[listenerKey].filter((l) => l !== listener);
+            listeners[listenerKey] = listeners[listenerKey].filter(
+                (l) => l !== listener,
+            );
         };
     },
     getStateSnapshot (): GameState {
@@ -307,7 +336,8 @@ function getPlayerTurnPenalty (a: PlayerState, b: PlayerState) {
 }
 
 function oppositePlayerHasDie (currentPlayer: Player): boolean {
-    const oppositePlayer: Player = currentPlayer === 'player1' ? 'player2' : 'player1';
+    const oppositePlayer: Player =
+    currentPlayer === 'player1' ? 'player2' : 'player1';
 
     return !gameState[oppositePlayer].noDice;
 }
