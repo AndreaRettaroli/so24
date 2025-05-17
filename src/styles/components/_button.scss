@@ -48,6 +48,11 @@
     border-style: solid;
     transform: rotate(45deg);
 
+    &._x-large {
+        height: 100px;
+        width: 100px;
+    }
+
     &._large {
         height: 80px;
         width: 80px;
@@ -61,4 +66,18 @@
     & > div {
         transform: rotate(-45deg);
     }
+}
+
+.button-border {
+    border: 3px;
+    border-style: solid;
+    &._player1 {
+        border-color: $player1-secondary-color;
+    }
+
+    
+    &._player2 {
+        border-color: $player2-secondary-color;
+    }
+    
 }
