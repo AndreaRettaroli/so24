@@ -41,7 +41,7 @@ interface PlayerState {
 
 interface CountdownState {
   type: CountdownType;
-  startingValue: 5 | 30;
+  startingValue: 3 | 30;
   value: number;
   valueMs: number;
   progress: number;
@@ -83,7 +83,7 @@ function createCountdownState (
     type: CountdownType,
     paused: boolean,
 ): CountdownState {
-    const value = type === 'starting' ? 5 : 30;
+    const value = type === 'starting' ? 3 : 30;
 
     return {
         type,
@@ -275,7 +275,7 @@ export const gameStateStore = {
         if (gameState.player2.endTurn === 0) {
             gameState.player2.endTurn = gameState.player2.turn;
         }
-
+        gameStateStore.pauseTimer();
         gameState.screen = 'ending';
         emitChange('screen');
     },
