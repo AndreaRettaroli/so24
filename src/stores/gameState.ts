@@ -198,8 +198,19 @@ export const gameStateStore = {
         gameState.countdown = createCountdownState('game', false);
         gameState.screen = 'game';
 
-        if (gameState[gameState.currentPlayer].turn < maxTurns) {
-            // handle this better
+        console.log(
+            '🚀 ~ nextTurn ~ gameState[gameState.currentPlayer].turn == maxTurn:',
+            gameState[gameState.currentPlayer].turn,
+        );
+
+        if (gameState[gameState.currentPlayer].turn <= maxTurns) {
+            // FIXED: infinity loop on turn 24
+            if (gameState[gameState.currentPlayer].turn === maxTurns) {
+                gameStateStore.endGame();
+
+                return;
+            }
+
             gameState[gameState.currentPlayer].turn++;
         }
 
