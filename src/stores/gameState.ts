@@ -275,6 +275,7 @@ export const gameStateStore = {
         if (gameState.player2.endTurn === 0) {
             gameState.player2.endTurn = gameState.player2.turn;
         }
+
         gameStateStore.pauseTimer();
         gameState.screen = 'ending';
         emitChange('screen');
