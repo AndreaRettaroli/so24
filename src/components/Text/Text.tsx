@@ -3,7 +3,7 @@ import clsx from "clsx";
 
 type FontWeight = "semibold" | "regular";
 
-export type FontSize = "xxl" | "xl" | "l" | "m" | "s" | "xs";
+export type FontSize = "xxl" | "xl" | "l" | "m" | "s" | "xs" | "xxs";
 
 type FontColor = "text" | "player1" | "player2" | "penalty";
 
@@ -53,6 +53,8 @@ function getFontSizeClass(fontSize: FontSize): string {
       return "-fs-s";
     case "xs":
       return "-fs-xs";
+    case "xxs":
+      return "-fs-xxs";
   }
 }
 

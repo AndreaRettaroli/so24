@@ -14,7 +14,14 @@ interface SharedButtonProps {
   className?: string;
   disabled?: boolean;
 }
-
+interface DiceButtonProps extends SharedButtonProps {
+  variant: "dice";
+  borderOnly?: boolean; // default false
+  color: ButtonColors;
+  height?: "large" | "medium"; // default large
+  fullWidth?: boolean;
+  // icon
+}
 interface NormalButtonProps extends SharedButtonProps {
   variant: "normal";
   borderOnly?: boolean; // default false
@@ -33,7 +40,9 @@ interface RotatedButtonProps extends SharedButtonProps {
 }
 
 export const Button: React.FC<
-  React.PropsWithChildren<RotatedButtonProps | NormalButtonProps>
+  React.PropsWithChildren<
+    RotatedButtonProps | NormalButtonProps | DiceButtonProps
+  >
 > = (props) => (
   <button
     className={clsx(getButtonClassesArray(props), props.className)}
@@ -52,7 +61,7 @@ export const Button: React.FC<
 );
 
 function getButtonClassesArray(
-  props: RotatedButtonProps | NormalButtonProps
+  props: RotatedButtonProps | NormalButtonProps | DiceButtonProps
 ): string[] {
   const classes = [];
 
@@ -63,7 +72,9 @@ function getButtonClassesArray(
   } else {
     classes.push("_large");
   }
-
+  if (props.variant === "dice") {
+    classes.push("dice-button");
+  }
   if (props.variant === "normal") {
     classes.push("player-button");
 

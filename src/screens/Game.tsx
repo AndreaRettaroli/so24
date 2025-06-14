@@ -40,30 +40,37 @@ export const GameScreen: React.FC = () => {
         }}
       >
         <Button
-          variant="normal"
+          variant="dice"
           color="player2"
           className="-t-r180dg"
           onClick={() => toggleNoDice("player2")}
         >
-          {player2.noDice ? (
-            <Icon icon="die" alt={t("noDice")} width="24px" height="24px" />
-          ) : (
-            <Icon
-              icon="dieDisabled"
-              alt={t("noDice")}
-              width="24px"
-              height="24px"
-            />
-          )}
-          <Text color="text" size="s" weight="regular">
-            {player2.noDice ? t("haveDice") : t("noDice")}
-          </Text>
-        </Button>
-        {currentPlayer === "player1" && (
-          <div className="-t-r180dg">
-            <TotalPoints points={player2.points} player="player2" />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            {player2.noDice ? (
+              <Icon icon="die" alt={t("noDice")} width="16px" height="16px" />
+            ) : (
+              <Icon
+                icon="dieDisabled"
+                alt={t("noDice")}
+                width="16px"
+                height="16px"
+              />
+            )}
+            <Text color="text" size="xxs" weight="regular">
+              {player2.noDice ? t("haveDice") : t("noDice")}
+            </Text>
           </div>
-        )}
+        </Button>
+
+        <div className="-t-r180dg">
+          <TotalPoints points={player2.points} player="player2" />
+        </div>
       </div>
       <div
         style={{ position: "relative", width: "100vw", height: "100vh" }}
@@ -73,7 +80,7 @@ export const GameScreen: React.FC = () => {
           <div
             style={{
               position: "absolute",
-              top: "10%",
+              top: "14%",
               alignItems: "center",
               justifyContent: "center",
               display: "flex",
@@ -82,19 +89,17 @@ export const GameScreen: React.FC = () => {
               zIndex: "-1", // this is required because of width
             }}
           >
-            <>
-              <Text size="s" color="text" weight="regular">
-                {t("turn")}
+            <Text size="xxs" color="text" weight="regular">
+              {t("turn")}{" "}
+              <Text size="xs" color="text" weight="regular">
+                {currentPlayerTurn} / 24
               </Text>
-              <Text size="s" color="text" weight="regular">
-                {" " + currentPlayerTurn}/24
-              </Text>
-            </>
+            </Text>
           </div>
           <div
             style={{
               position: "absolute",
-              top: "25%",
+              top: "20%",
               left: "50%",
               transform: "translateX(-50%)",
             }}
@@ -203,7 +208,7 @@ export const GameScreen: React.FC = () => {
               variant="normal"
               color={currentPlayer}
               borderOnly
-              onClick={() => addPoints(currentPlayer, 3)}
+              onClick={() => addPoints(currentPlayer, 2)}
             >
               <Text color="text" size="l" weight="regular">
                 2
@@ -215,7 +220,7 @@ export const GameScreen: React.FC = () => {
               variant="normal"
               color={currentPlayer}
               borderOnly
-              onClick={() => addPoints(currentPlayer, 5)}
+              onClick={() => addPoints(currentPlayer, 3)}
             >
               <Text color="text" size="l" weight="regular">
                 3
@@ -227,7 +232,7 @@ export const GameScreen: React.FC = () => {
               variant="normal"
               color={currentPlayer}
               borderOnly
-              onClick={() => addPoints(currentPlayer, 2)}
+              onClick={() => addPoints(currentPlayer, 4)}
             >
               <Text color="text" size="l" weight="regular">
                 4
@@ -239,7 +244,7 @@ export const GameScreen: React.FC = () => {
               variant="normal"
               color={currentPlayer}
               borderOnly
-              onClick={() => addPoints(currentPlayer, 4)}
+              onClick={() => addPoints(currentPlayer, 5)}
             >
               <Text color="text" size="l" weight="regular">
                 5
@@ -260,28 +265,34 @@ export const GameScreen: React.FC = () => {
         }}
       >
         <Button
-          variant="normal"
+          variant="dice"
           color="player1"
           onClick={() => toggleNoDice("player1")}
         >
-          {player1.noDice ? (
-            <Icon icon="die" alt={t("noDice")} width="24px" height="24px" />
-          ) : (
-            <Icon
-              icon="dieDisabled"
-              alt={t("noDice")}
-              width="24px"
-              height="24px"
-            />
-          )}
-          <Text color="text" size="s" weight="regular">
-            {player1.noDice ? t("haveDice") : t("noDice")}
-          </Text>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            {player1.noDice ? (
+              <Icon icon="die" alt={t("noDice")} width="16px" height="16px" />
+            ) : (
+              <Icon
+                icon="dieDisabled"
+                alt={t("noDice")}
+                width="16px"
+                height="16px"
+              />
+            )}
+            <Text color="text" size="xxs" weight="regular">
+              {player1.noDice ? t("haveDice") : t("noDice")}
+            </Text>
+          </div>
         </Button>
 
-        {currentPlayer === "player2" && (
-          <TotalPoints points={player1.points} player="player1" />
-        )}
+        <TotalPoints points={player1.points} player="player1" />
       </div>
     </div>
   );
